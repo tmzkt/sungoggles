@@ -15,12 +15,16 @@ namespace TimeAndDateScraper
         [Serializable]
         public class DayData
         {
+            public string Sunrise { get; }
+            public string Sunset { get; }
             public string DayLength { get; }
             public string DayLengthDifference { get; }
-            public DayData(string dayLength, string dayLengthDifference)
+            public DayData(string sunrise, string sunset, string dayLength, string dayLengthDifference)
             {
-                this.DayLength = dayLength;
-                this.DayLengthDifference = dayLengthDifference;
+                Sunrise = sunrise;
+                Sunset = sunset;
+                DayLength = dayLength;
+                DayLengthDifference = dayLengthDifference;
             }
         }
     }

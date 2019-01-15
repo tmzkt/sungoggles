@@ -22,14 +22,16 @@ namespace TimeAndDateScraper
             foreach (HtmlNode node in s)
             {
                 int dayOfMonth = Convert.ToInt32(node.Attributes["data-day"].Value);
+                string sunrise = node.ChildNodes[1].InnerText;
+                string sunset = node.ChildNodes[2].InnerText;
                 string dayLength = node.ChildNodes[3].InnerText;
                 string difference = node.ChildNodes[4].InnerText;
                 //Console.WriteLine($"Day {dayLength}, difference {difference}");
-                myobj.DayOfMonthToDayLength.Add(dayOfMonth, new MonthDayLength.DayData(dayLength, difference));
+                myobj.DayOfMonthToDayLength.Add(dayOfMonth, new MonthDayLength.DayData(sunrise, sunset, dayLength, difference));
             }
 
             MonthDayLength.DayData dayData = myobj.DayOfMonthToDayLength[DateTime.Now.Day];
-            Console.WriteLine($"Day Length {dayData.DayLength}, difference {dayData.DayLengthDifference}");
+            Console.WriteLine($"day Length {dayData.DayLength}, difference {dayData.DayLengthDifference}, sunrise {dayData.Sunrise}, sunset {dayData.Sunset}");
 
             Stream stream = null;
             try
