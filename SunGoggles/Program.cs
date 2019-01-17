@@ -9,8 +9,7 @@ namespace TimeAndDateScraper
     {
         static void Main(string[] args)
         {
-            HtmlAgilityPack.HtmlWeb web = new HtmlAgilityPack.HtmlWeb();
-            HtmlAgilityPack.HtmlDocument doc = web.Load("https://www.timeanddate.com/sun/usa/philadelphia?month=1&year=2019");
+            HtmlDocument doc = new HtmlWeb().Load("https://www.timeanddate.com/sun/usa/philadelphia?month=1&year=2019");
 
             var s = doc.DocumentNode.SelectNodes("//tr[@data-day]");
 
@@ -26,12 +25,11 @@ namespace TimeAndDateScraper
                 string sunset = node.ChildNodes[2].InnerText;
                 string dayLength = node.ChildNodes[3].InnerText;
                 string difference = node.ChildNodes[4].InnerText;
-                //Console.WriteLine($"Day {dayLength}, difference {difference}");
                 myobj.DayOfMonthToDayLength.Add(dayOfMonth, new MonthDayLength.DayData(sunrise, sunset, dayLength, difference));
             }
 
             MonthDayLength.DayData dayData = myobj.DayOfMonthToDayLength[DateTime.Now.Day];
-            Console.WriteLine($"day Length {dayData.DayLength}, difference {dayData.DayLengthDifference}, sunrise {dayData.Sunrise}, sunset {dayData.Sunset}");
+            Console.WriteLine($"day length {dayData.DayLength}, difference {dayData.DayLengthDifference}, sunrise {dayData.Sunrise}, sunset {dayData.Sunset}");
 
             Stream stream = null;
             try
@@ -43,8 +41,6 @@ namespace TimeAndDateScraper
             {
                 stream?.Close();
             }
-
-            Console.ReadLine();
         }
     }
 }
