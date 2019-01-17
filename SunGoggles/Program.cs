@@ -3,14 +3,16 @@ using System;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace TimeAndDateScraper
+namespace SunGoggles
 {
     class Program
     {
         static void Main(string[] args)
         {
-            HtmlDocument doc = new HtmlWeb().Load("https://www.timeanddate.com/sun/usa/philadelphia?month=1&year=2019");
+            FileSerializer fileSerializer = new FileSerializer();
+            MonthDayLength cachedData = (MonthDayLength) fileSerializer.Load("sungoggles-cache");
 
+            HtmlDocument doc = new HtmlWeb().Load("https://www.timeanddate.com/sun/usa/philadelphia?month=1&year=2019");
             var s = doc.DocumentNode.SelectNodes("//tr[@data-day]");
 
             MonthDayLength myobj = new MonthDayLength();
