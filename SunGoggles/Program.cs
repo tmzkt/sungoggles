@@ -11,7 +11,7 @@ namespace SunGoggles
         {
             DateTime now = DateTime.Now;
             FileSerializer fileSerializer = new FileSerializer();
-            MonthDayLength cachedData = (MonthDayLength)fileSerializer.Load("sungoggles-cache");
+            MonthDayLength cachedData = (MonthDayLength)fileSerializer.Load(AppDomain.CurrentDomain.BaseDirectory + "sungoggles.cache");
 
             if (cachedData == null || !(cachedData.Month == now.Month && cachedData.Year == now.Year))
             {
@@ -34,7 +34,7 @@ namespace SunGoggles
                 }
 
                 cachedData = myobj;
-                fileSerializer.Save("sungoggles-cache", cachedData);
+                fileSerializer.Save(AppDomain.CurrentDomain.BaseDirectory + "sungoggles.cache", cachedData);
             }
 
             MonthDayLength.DayData dayData = cachedData.DayOfMonthToDayLength[DateTime.Now.Day];
