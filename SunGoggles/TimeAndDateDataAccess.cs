@@ -23,11 +23,10 @@ namespace SunGoggles
 
         public MonthDayLength GetDayLengthForMonth()
         {
-            DateTime now = DateTime.Now;
             FileSerializer fileSerializer = new FileSerializer();
 
             MonthDayLength cachedData = (MonthDayLength)fileSerializer.Load(AppDomain.CurrentDomain.BaseDirectory + "sungoggles.cache");
-            if (cachedData == null || !(cachedData.Month == now.Month && cachedData.Year == now.Year))
+            if (cachedData == null || !(cachedData.Month == Month && cachedData.Year == Year))
             {
                 cachedData = GetDayLengthForMonthWithNoCache();
                 fileSerializer.Save(AppDomain.CurrentDomain.BaseDirectory + "sungoggles.cache", cachedData);
