@@ -37,7 +37,7 @@ namespace SunGoggles
 
         public MonthDayLength GetDayLengthForMonthWithNoCache()
         {
-            HtmlDocument document = new HtmlWeb().Load($"${URL}/${Country}/${City}?month=${Month}&year=${Year}");
+            HtmlDocument document = new HtmlWeb().Load($"{URL}/{Country}/{City}?month={Month}&year={Year}");
             var dayNodes = document.DocumentNode.SelectNodes("//tr[@data-day]");
 
             MonthDayLength monthDayLength = new MonthDayLength();
