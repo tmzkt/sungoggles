@@ -11,29 +11,17 @@ namespace SunGoggles
             {
                 return null;
             }
-            Stream stream = null;
-            try
+            using (Stream stream = new FileStream(fileName, FileMode.Open))
             {
-                stream = new FileStream(fileName, FileMode.Open);
                 return new BinaryFormatter().Deserialize(stream);
-            }
-            finally
-            {
-                stream?.Close();
             }
         }
 
         public void Save(string fileName, object obj)
         {
-            Stream stream = null;
-            try
+            using (Stream stream = new FileStream(fileName, FileMode.Create))
             {
-                stream = new FileStream(fileName, FileMode.Create);
                 new BinaryFormatter().Serialize(stream, obj);
-            }
-            finally
-            {
-                stream?.Close();
             }
         }
     }
