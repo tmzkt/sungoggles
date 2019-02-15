@@ -43,7 +43,8 @@ namespace SunGoggles
             MonthDayLength monthDayLength = new MonthDayLength();
             monthDayLength.Month = Month;
             monthDayLength.Year = Year;
-            monthDayLength.Location = City; // TODO split location into country and city
+            monthDayLength.Country = Country;
+            monthDayLength.City = City;
             monthDayLength.DayOfMonthToDayLength = new Dictionary<int, MonthDayLength.DayData>();
             foreach (HtmlNode node in dayNodes)
             {

@@ -8,7 +8,8 @@ namespace SunGoggles
     {
         public int Month { get; set; }
         public int Year { get; set;  }
-        public string Location { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
         public Dictionary<int, DayData> DayOfMonthToDayLength { get; set; }
 
         [Serializable]
