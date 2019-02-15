@@ -5,6 +5,8 @@ namespace SunGoggles
 {
     class FileSerializer
     {
+        private BinaryFormatter formatter = new BinaryFormatter();
+
         public object Load(string fileName)
         {
             if (!File.Exists(fileName))
@@ -13,7 +15,7 @@ namespace SunGoggles
             }
             using (Stream stream = new FileStream(fileName, FileMode.Open))
             {
-                return new BinaryFormatter().Deserialize(stream);
+                return formatter.Deserialize(stream);
             }
         }
 
@@ -21,7 +23,7 @@ namespace SunGoggles
         {
             using (Stream stream = new FileStream(fileName, FileMode.Create))
             {
-                new BinaryFormatter().Serialize(stream, obj);
+                formatter.Serialize(stream, obj);
             }
         }
     }
