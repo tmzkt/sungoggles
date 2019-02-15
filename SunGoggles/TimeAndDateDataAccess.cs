@@ -8,6 +8,7 @@ namespace SunGoggles
     class TimeAndDateDataAccess
     {
         private const string URL = "https://www.timeanddate.com/sun";
+        private static readonly string CacheFilePath = AppDomain.CurrentDomain.BaseDirectory + "sungoggles.cache";
         public string Country { get; }
         public string City { get; }
         public int Month { get; }
@@ -25,11 +26,11 @@ namespace SunGoggles
         {
             FileSerializer fileSerializer = new FileSerializer();
 
-            SunriseSunsetTimesForMonth cachedData = (SunriseSunsetTimesForMonth)fileSerializer.Load(AppDomain.CurrentDomain.BaseDirectory + "sungoggles.cache");
-            if (cachedData == null || !(cachedData.Month == Month && cachedData.Year == Year))
+            SunriseSunsetTimesForMonth cachedData = (SunriseSunsetTimesForMonth)fileSerializer.Load(CacheFilePath);
+            if (cachedData == null || !(cachedData.Month == Month && cachedData.Year == Year && cachedData.Country == Country && cachedData.City == City))
             {
                 cachedData = GetSunriseSunsetTimesForMonthWithNoCache();
-                fileSerializer.Save(AppDomain.CurrentDomain.BaseDirectory + "sungoggles.cache", cachedData);
+                fileSerializer.Save(CacheFilePath, cachedData);
             }
 
             return cachedData;
