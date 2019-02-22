@@ -8,8 +8,8 @@ namespace SunGoggles
         {
             DateTime now = DateTime.Now;
             TimeAndDateDataAccess timeAndDateDataAccess = new TimeAndDateDataAccess("usa", "philadelphia", now.Month, now.Year);
-            SunriseSunsetTimesForMonth sunriseSunsetTimes = timeAndDateDataAccess.GetSunriseSunsetTimesForMonth();
-            SunriseSunsetTimesForMonth.SunriseSunsetTime dayData = sunriseSunsetTimes.DayOfMonthToSunriseSunsetTime[now.Day];
+            SunriseSunsetTimes sunriseSunsetTimes = timeAndDateDataAccess.GetSunriseSunsetTimesForMonth();
+            SunriseSunsetTimes.SunriseSunsetTime dayData = sunriseSunsetTimes.DateToSunriseSunsetTime[now.Date];
             Console.WriteLine($"day length {dayData.DayLength}, difference {dayData.DayLengthDifference}, sunrise {dayData.Sunrise}, sunset {dayData.Sunset}");
         }
     }

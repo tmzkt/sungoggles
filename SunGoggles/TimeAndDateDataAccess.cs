@@ -22,12 +22,13 @@ namespace SunGoggles
             this.Year = year;
         }
 
-        public SunriseSunsetTimesForMonth GetSunriseSunsetTimesForMonth()
+        public SunriseSunsetTimes GetSunriseSunsetTimesForMonth()
         {
             FileSerializer fileSerializer = new FileSerializer();
 
-            SunriseSunsetTimesForMonth cachedData = (SunriseSunsetTimesForMonth)fileSerializer.Load(CacheFilePath);
-            if (cachedData == null || !(cachedData.Month == Month && cachedData.Year == Year && cachedData.Country == Country && cachedData.City == City))
+            SunriseSunsetTimes cachedData = (SunriseSunsetTimes)fileSerializer.Load(CacheFilePath);
+            if (cachedData == null || !(cachedData.Country == Country && cachedData.City == City 
+                && cachedData.DateToSunriseSunsetTime.Keys.Count > 0 && cachedData.DateToSunriseSunsetTime.ContainsKey(new DateTime(Year, Month, 1)))) // TODO redesign
             {
                 cachedData = GetSunriseSunsetTimesForMonthWithNoCache();
                 fileSerializer.Save(CacheFilePath, cachedData);
@@ -36,25 +37,24 @@ namespace SunGoggles
             return cachedData;
         }
 
-        public SunriseSunsetTimesForMonth GetSunriseSunsetTimesForMonthWithNoCache()
+        public SunriseSunsetTimes GetSunriseSunsetTimesForMonthWithNoCache()
         {
             HtmlDocument document = new HtmlWeb().Load($"{URL}/{Country}/{City}?month={Month}&year={Year}");
             var dayNodes = document.DocumentNode.SelectNodes("//tr[@data-day]");
 
-            SunriseSunsetTimesForMonth sunriseSunsetTimes = new SunriseSunsetTimesForMonth();
-            sunriseSunsetTimes.Month = Month;
-            sunriseSunsetTimes.Year = Year;
+            SunriseSunsetTimes sunriseSunsetTimes = new SunriseSunsetTimes();
             sunriseSunsetTimes.Country = Country;
             sunriseSunsetTimes.City = City;
-            sunriseSunsetTimes.DayOfMonthToSunriseSunsetTime = new Dictionary<int, SunriseSunsetTimesForMonth.SunriseSunsetTime>();
+            sunriseSunsetTimes.DateToSunriseSunsetTime = new Dictionary<DateTime, SunriseSunsetTimes.SunriseSunsetTime>();
             foreach (HtmlNode node in dayNodes)
             {
                 int dayOfMonth = Convert.ToInt32(node.Attributes["data-day"].Value);
+                DateTime date = new DateTime(Year, Month, dayOfMonth);
                 string sunrise = node.ChildNodes[1].InnerText;
                 string sunset = node.ChildNodes[2].InnerText;
                 string dayLength = node.ChildNodes[3].InnerText;
                 string difference = node.ChildNodes[4].InnerText;
-                sunriseSunsetTimes.DayOfMonthToSunriseSunsetTime.Add(dayOfMonth, new SunriseSunsetTimesForMonth.SunriseSunsetTime(sunrise, sunset, dayLength, difference));
+                sunriseSunsetTimes.DateToSunriseSunsetTime.Add(date, new SunriseSunsetTimes.SunriseSunsetTime(sunrise, sunset, dayLength, difference));
             }
 
             return sunriseSunsetTimes;

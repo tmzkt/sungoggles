@@ -4,13 +4,11 @@ using System.Collections.Generic;
 namespace SunGoggles
 {
     [Serializable]
-    public class SunriseSunsetTimesForMonth
+    public class SunriseSunsetTimes
     {
-        public int Month { get; set; }
-        public int Year { get; set;  }
         public string Country { get; set; }
         public string City { get; set; }
-        public Dictionary<int, SunriseSunsetTime> DayOfMonthToSunriseSunsetTime { get; set; }
+        public Dictionary<DateTime, SunriseSunsetTime> DateToSunriseSunsetTime { get; set; }
 
         [Serializable]
         public class SunriseSunsetTime
